@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react'
 import { getAreaData } from './api'
 
 import './App.css'
+import SearchBar from './SearchBar';
 
 function App() {
 
-  const [areas, setAreas] = useState([]);
+  const [areas, setAreas] = useState([]),
+    [searchValue, setSearchValue] = useState('BB10')
 
   const load = async () => {
     try {
-      const areaData = await getAreaData()
-
-      // areas.concat(areaData);
+      const areaData = await getAreaData(searchValue)
   
       setAreas(areaData);
     } catch (error) {
@@ -21,12 +21,13 @@ function App() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [searchValue]);
 
   return (
     <div className="App">
       <h1>Postcoders</h1>
-      <h2>{`Areas for BB10: ${areas.length}`}</h2>
+      <SearchBar setSearchValue={setSearchValue} />
+      <h2>{`Areas for ${searchValue}: ${areas.length}`}</h2>
     </div>
   )
 }
