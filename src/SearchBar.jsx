@@ -15,7 +15,7 @@ const SearchBar = ({ setSearchValue }) => {
     return (
         <form onSubmit={handleSubmit}>
       <label>
-        Search:
+        Search: 
         <input type="text" value={searchTerm} onChange={handleChange} />
       </label>
       <button type="submit">Search</button>

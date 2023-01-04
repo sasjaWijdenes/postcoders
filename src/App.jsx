@@ -5,18 +5,23 @@ import { getAreaData } from './api'
 import './App.css'
 import SearchBar from './SearchBar';
 
+const cache = {}    //Stores the results of previous API calls 
+
 function App() {
 
   const [areas, setAreas] = useState([]),
     [searchValue, setSearchValue] = useState('BB10')
 
   const load = async () => {
-    try {
-      const areaData = await getAreaData(searchValue)
-  
-      setAreas(areaData);
+    try { //Checks if the cache already holds the results for this search
+      if (searchValue in cache) setAreas(cache[searchValue])
+      else{
+        const areaData = await getAreaData(searchValue)
+        cache[searchValue] = areaData;
+        setAreas(areaData);
+      }
     } catch (error) {
-      window.alert("todo: fix app")
+      window.alert(error)
     }
   }
 
